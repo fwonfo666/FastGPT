@@ -38,6 +38,10 @@ import { ReferSelector } from '@/pageComponents/app/detail/WorkflowComponents/Fl
 import ValueTypeLabel from '@/pageComponents/app/detail/WorkflowComponents/Flow/nodes/render/ValueTypeLabel';
 import SelectAiModel from '@/components/Select/AIModelSelector';
 import { type AppDatasetSearchParamsType } from '@fastgpt/global/core/app/type';
+import {
+  normalizeRerankCandidateNum,
+  rerankCandidateNumRange
+} from '@fastgpt/global/core/dataset/search/utils';
 import { NodeInputKeyEnum, WorkflowIOValueTypeEnum } from '@fastgpt/global/core/workflow/constants';
 import MyIcon from '@fastgpt/web/components/common/Icon';
 import MyNumberInput from '@fastgpt/web/components/common/Input/NumberInput';
@@ -73,6 +77,7 @@ const DatasetParamsModal = ({
   rerankModelId,
   rerankModel,
   rerankWeight,
+  rerankCandidateNum,
   datasetSearchUsingExtensionQuery,
   datasetSearchExtensionModelId,
   datasetSearchExtensionModel,
@@ -110,6 +115,7 @@ const DatasetParamsModal = ({
     rerankModelId,
     rerankModel,
     rerankWeight: rerankWeight ?? 0.5,
+    rerankCandidateNum: normalizeRerankCandidateNum(rerankCandidateNum),
     limit,
     similarity,
     datasetSearchUsingExtensionQuery,
@@ -368,6 +374,22 @@ const DatasetParamsModal = ({
                         onChange={(modelId) =>
                           setValue(NodeInputKeyEnum.datasetSearchRerankModelId, modelId)
                         }
+                      />
+                    </Box>
+                  </HStack>
+                  <HStack mt={3}>
+                    <Box fontSize={'sm'} flex={'0 0 100px'} color={'myGray.700'}>
+                      {t('common:rerank_candidate_num')}
+                      <QuestionTip ml={0.5} label={t('common:rerank_candidate_num_tips')} />
+                    </Box>
+                    <Box flex={'1 0 0'}>
+                      <MyNumberInput
+                        size={'sm'}
+                        min={rerankCandidateNumRange.min}
+                        max={rerankCandidateNumRange.max}
+                        step={rerankCandidateNumRange.step}
+                        register={register}
+                        name={NodeInputKeyEnum.datasetSearchRerankCandidateNum}
                       />
                     </Box>
                   </HStack>

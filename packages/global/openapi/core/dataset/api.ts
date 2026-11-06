@@ -648,6 +648,12 @@ const SearchDatasetTestOptionsSchema = z.object({
     description:
       '重排结果的融合权重，原始召回结果权重为 1 - rerankWeight；默认 0.5，1 表示仅使用重排排序'
   }),
+  rerankCandidateNum: z.number().optional().meta({
+    example: 100,
+    default: 100,
+    description:
+      '启用重排时，从融合后的召回结果中最多取前 N 条送入重排模型；默认 100，范围 10~100，超出范围按边界收敛'
+  }),
   datasetSearchUsingExtensionQuery: z.boolean().optional().meta({
     example: false,
     default: false,
